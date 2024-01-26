@@ -1,15 +1,22 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, redirect, url_for
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
+from flask_cors import CORS
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Flask app secret key
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config["SESSION_PERMANENT"] = False
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
 # SQLAlchemy for database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # Use your preferred database URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -36,6 +43,7 @@ def health_check():
 # Registration endpoint
 @app.route('/register', methods=['POST'])
 def register():
+    # email, username and password
     data = request.get_json()
     
     # Check if the email or username already exists
@@ -54,6 +62,7 @@ def register():
 # Login endpoint
 @app.route('/login', methods=['POST'])
 def login():
+    # email and password
     
     # Check if the user is already logged in
     if 'user_id' in session:
@@ -81,6 +90,7 @@ def logout():
 def profile():
     # Check if the user is logged in
     user_id = session.get('user_id')
+    print(user_id)
     if user_id is None:
         return jsonify(message='Not logged in. Please log in.'), 401
 

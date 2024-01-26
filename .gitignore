@@ -1,4 +1,7 @@
 .env
-instance/
+section1/instance/
+section1/flask_session/
 .DS_Store
 llama-2-7b-chat.ggmlv3.q8_0.bin
+
+section1/login-signup/node_modules/
