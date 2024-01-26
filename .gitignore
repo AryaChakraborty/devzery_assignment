@@ -4,5 +4,5 @@ section1/flask_session/
 .DS_Store
 llama-2-7b-chat.ggmlv3.q8_0.bin
 
-node_modules/
-instance/
+/node_modules/
+/instance/
